@@ -27,4 +27,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("사용자 이름으로 찾을 수 없습니다: " + username);
 		}
 	}
+
+	public void withdrawUser(String username) {
+
+		UserEntity user = userRepository.findByUsername(username);
+		userRepository.delete(user);
+	}
+	
+	
 }

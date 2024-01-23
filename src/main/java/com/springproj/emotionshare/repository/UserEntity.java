@@ -1,11 +1,13 @@
 package com.springproj.emotionshare.repository;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +19,7 @@ public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	
+
 	@Column(unique = true)
 	private String username;
 	private String password;
@@ -29,10 +30,23 @@ public class UserEntity {
 	private String gender;
 	private String useremail;
 	private String edomain;
-	
+
 	private String role;
 
-	}
-	
-	
+	public void updateUserInfo(UserEntity updatedUser) {
+		this.nick = updatedUser.getNick();
+		this.uname = updatedUser.getUname();
+		this.tel = updatedUser.getTel();
+		this.birth = updatedUser.getBirth();
+		this.gender = updatedUser.getGender();
+		this.useremail = updatedUser.getUseremail();
+		this.edomain = updatedUser.getEdomain();
 
+	
+		if (StringUtils.isNotBlank(updatedUser.getPassword())) {
+		
+			this.password = BCrypt.hashpw(updatedUser.getPassword(), BCrypt.gensalt());
+		}
+
+	}
+}

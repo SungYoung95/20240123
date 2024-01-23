@@ -16,7 +16,7 @@
 		성별 : ${gender}<br>
 		이메일 : ${useremail}@${edomain} <br>
 
-<a href="/update">정보변경</a>	<a href="/">회원탈퇴</a>
+<a href="/update">정보변경</a>	<a href="/withdraw">회원탈퇴</a>
 
 </body>
 

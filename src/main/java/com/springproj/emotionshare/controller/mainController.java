@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.springproj.emotionshare.Dto.CustomUserDetails;
 
 @Controller
@@ -27,7 +28,7 @@ public class mainController {
 		Iterator<? extends GrantedAuthority> iter = authorities.iterator();
 		GrantedAuthority auth = iter.next();
 		String role = auth.getAuthority();
-
+		String Id = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.addAttribute("userID", username);
 		model.addAttribute("role", role);
 
@@ -48,19 +49,13 @@ public class mainController {
 	    model.addAttribute("nick", nick);
 	    model.addAttribute("uname", uname);
 	    model.addAttribute("tel", tel);
-	    model.addAttribute("birht", birth);
+	    model.addAttribute("birth", birth);
 	    model.addAttribute("gender", gender);
 	    model.addAttribute("useremail", useremail);
 	    model.addAttribute("edomain", edomain);
 	    return "mypage";
 	}
 	
-	@GetMapping("/update")
-	public String update(){
+	
 
-		
-			
-		
-		return "update";
-}
 }
