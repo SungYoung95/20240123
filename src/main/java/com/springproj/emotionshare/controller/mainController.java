@@ -31,7 +31,7 @@ public class mainController {
 		model.addAttribute("username", username);
 		model.addAttribute("role", role);
 
-		return "mainpage";
+		return "index";
 
 	}
 
