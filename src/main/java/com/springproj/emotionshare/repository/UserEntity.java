@@ -43,6 +43,8 @@ public class UserEntity {
 		this.edomain = updatedUser.getEdomain();
 
 	
+		
+		//회원변경 필요한 비밀번호암호화
 		if (StringUtils.isNotBlank(updatedUser.getPassword())) {
 		
 			this.password = BCrypt.hashpw(updatedUser.getPassword(), BCrypt.gensalt());

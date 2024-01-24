@@ -1,4 +1,4 @@
-package com.springproj.emotionshare.Dto;
+package com.springproj.emotionshare.securityConfig;
 
 import java.util.ArrayList;
 import java.util.Collection;

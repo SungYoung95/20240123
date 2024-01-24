@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.springproj.emotionshare.Dto.CustomUserDetails;
 import com.springproj.emotionshare.repository.UserEntity;
 import com.springproj.emotionshare.repository.UserRepository;
+import com.springproj.emotionshare.securityConfig.CustomUserDetails;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -16,7 +16,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Override
+	
+	//로그인관련 
+	@Override 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		UserEntity userData = userRepository.findByUsername(username);
@@ -24,10 +26,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (userData != null) {
 			return new CustomUserDetails(userData);
 		} else {
-			throw new UsernameNotFoundException("사용자 이름으로 찾을 수 없습니다: " + username);
+			throw new UsernameNotFoundException("등록된 사용자가 아닙니다.: " + username);
 		}
 	}
 
+	
+	//유저 삭제 회원탈퇴
 	public void withdrawUser(String username) {
 
 		UserEntity user = userRepository.findByUsername(username);

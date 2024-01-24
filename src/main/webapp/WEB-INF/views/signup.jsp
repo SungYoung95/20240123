@@ -5,170 +5,128 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입 페이지</title>
+<script type="text/javascript"
+	src="https://lib.yongin.go.kr/include/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
-<!-- 회원가입 유효성 체크 -->
+    // 이메일 도메인 선택
+    $(document).ready(function () {
+        const domainListEl = document.querySelector('#domain-list');
+        const domainInputEl = document.querySelector('#domain-txt');
 
-<!-- 도메인 선택 스크립트 -->
-<script src="https://lib.yongin.go.kr/include/js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript">
-	$(function() {
-		const domainListEl = document.querySelector('#domain-list');
-		const domainInputEl = document.querySelector('#domain-txt');
-		// select 옵션 변경 시
-		domainListEl
-				.addEventListener(
-						'change',
-						function(event) {
-							// option에 있는 도메인 선택 시
-							if (domainListEl.options[domainListEl.selectedIndex].value != "type") {
-								// 선택한 도메인을 input에 입력하고 disabled
-								domainInputEl.value = domainListEl.options[domainListEl.selectedIndex].value;
-								domainInputEl.disabled = false;
-							} else { // 직접 입력 시
-								// input 내용 초기화 & 입력 가능하도록 변경
-								domainInputEl.value = "";
-								domainInputEl.disabled = true;
-							}
-						});
-	});
-	
-	 // 중복 ID 확인
-    $('#duplicateID').on('click', function () {
-        const uid = $('#uid').val();
-        if (uid.trim() !== '') {
-            // 중복 ID 확인을 위한 AJAX 요청
+        // 도메인 선택 관련
+        domainListEl.addEventListener('change', function (event) {
+            if (domainListEl.options[domainListEl.selectedIndex].value !== 'type') {
+                domainInputEl.value = domainListEl.options[domainListEl.selectedIndex].value;
+                domainInputEl.disabled = false;
+            } else {
+                domainInputEl.value = '';
+                domainInputEl.disabled = true;
+            }
+        });
+
+        // 아이디 중복 확인
+        $('#duplicateID').on('click', function () {
+            const username = $('#uid').val();
             $.ajax({
-                type: 'POST',
-                url: '/checkDuplicateID',
-                data: {username: uid},
+                type: 'GET',
+                url: '/checkDuplicateUsername',
+                data: { username: username },
                 success: function (response) {
-                    if (response === 'true') {
-                        alert('사용 가능한 ID입니다.');
+                    if (response.available) {
+                        $('#usernameAvailabilityMessage').html('<span style="color:green;">사용 가능한 아이디입니다.</span>');
                     } else {
-                        alert('이미 사용 중인 ID입니다. 다른 ID를 선택하세요.');
+                        $('#usernameAvailabilityMessage').html('<span style="color:red;">이미 사용 중인 아이디입니다.</span>');
                     }
-                },
-                error: function () {
-                    alert('중복 ID 확인 중 오류가 발생했습니다.');
                 }
             });
-        } else {
-            alert('ID를 입력하세요.');
-        }
-    });
+        });
 
-    // 중복 닉네임 확인
-    $('#duplicatenick').on('click', function () {
-        const nick = $('#nick').val();
-        if (nick.trim() !== '') {
-            // 중복 닉네임 확인을 위한 AJAX 요청
-            $.ajax({
-                type: 'POST',
-                url: '/checkDuplicateNick',
-                data: {nick: nick},
-                success: function (response) {
-                    if (response === 'true') {
-                        alert('사용 가능한 닉네임입니다.');
-                    } else {
-                        alert('이미 사용 중인 닉네임입니다. 다른 닉네임을 선택하세요.');
-                    }
-                },
-                error: function () {
-                    alert('중복 닉네임 확인 중 오류가 발생했습니다.');
-                }
-            });
-        } else {
-            alert('닉네임을 입력하세요.');
-        }
-    });
+        // 비밀번호 확인
+        $('#confirmPassword').on('blur', function () {
+            const password = $('#password').val();
+            const confirmPassword = $(this).val();
 
-    // 비밀번호 확인 기능 (예: 최소 길이)
-    $('#password').on('blur', function () {
-        const password = $(this).val();
-        if (password.length < 6) {
-            alert('비밀번호는 최소 6자 이상이어야 합니다.');
-        }
-    });
-});
-</script>
+            if (password !== confirmPassword) {
+                $('#passwordCheck').html('<span style="color:red;">비밀번호가 일치하지 않습니다!</span>');
+            } else {
+                $('#passwordCheck').html('');
+            }
+        });
 
-
-
-
-
-
-
+        // 비밀번호 길이
+        $('#password').on('blur', function () {
+            const password = $(this).val();
+            if (password.length < 6) {
+                $('#passwordLengthMessage').html('<span style="color:red;">비밀번호 길이는 최소 6자 이상이여야합니다.</span>');
+            } else {
+                $('#passwordLengthMessage').html('');
+            }
+        });
+    }); 
 </script>
 </head>
 <body>
-
 	<div align="center">
-		<form action="/signupProc" method="post">
-			<tr>
-				<th width="80">아이디:</th>
-				<td><input type="text" name="username" id="uid"
-					placeholder="ID를 입력해주세요" />
-					<button id="duplicateID"></td>
-			</tr>
-			중복
-			</button>
 
 
-
-			<br>
-			<tr>
-				<th width="80">비밀번호:</th>
-				<td><input type="password" name="password"
-					placeholder="PW를 입력해주세요" /></td>
-			</tr>
-			<br>
-			<!-- <tr>
-				<th width="80">비밀번호확인:</th>
-				<td><input type="rpassword" name="rpassword"
-					placeholder="PW를 다시해주세요" /></td>
-			</tr>
-			<br> -->
-			<tr>
-				<th width="80">닉네임:</th>
-				<td><input type="text" name="nick" id="nick" />
-					<button id="duplicatenick"></td>
-			</tr>
-			중복
-			</button>
-			<br>
-			<tr>
-				<th width="80">이름:</th>
-				<td><input type="text" name="uname" /></td>
-			</tr>
-			<br>
-			<tr>
-				<th width="80">전화번호:</th>
-				<td><input type="text" name="tel" /></td>
-			</tr>
-			<br>
-			<tr>
-				<th width="80">생년월일:</th>
-				<td><input type="text" name="birth" /></td>
-			</tr>
-			<br>
-			<tr>
-				<th width="80">성별:</th>
-				<td><input type="radio" name="gender" value="남자" checked>
-					<font size=2>남</font> <input type="radio" name="gender" value="여자">
-					<font size=2>여</font></td>
-			</tr>
-			<br>
-			<th width="80">이메일:</th>
-			<td><input type="text" name="useremail" />@ <input
-				id="domain-txt" type="text" name="edomain" /> <select
-				id="domain-list">
+		<form action="/signupProc" method="post" id="signupForm">
+			<div>
+				<label for="uid">아이디:</label> <input type="text" name="username"
+					id="uid" placeholder="ID를 입력해주세요" />
+				<button id="duplicateID" type="button">중복 확인</button>
+				<div id="usernameAvailabilityMessage"></div>
+			</div>
+			<div>
+				<label for="password">비밀번호:</label> <input type="password"
+					name="password" id="password" placeholder="PW를 입력해주세요" />
+				<div id="passwordLengthMessage"></div>
+			</div>
+			<div>
+				<label for="confirmPassword">비밀번호 확인:</label> <input type="password"
+					name="confirmPassword" id="confirmPassword"
+					placeholder="PW를 다시 입력해주세요" />
+				<div id="passwordCheck"></div>
+			</div>
+			<div>
+				<label for="nick">닉네임:</label> <input type="text" name="nick"
+					id="nick" />
+			</div>
+			<div>
+				<label for="uname">이름:</label> <input type="text" name="uname" />
+			</div>
+			<div>
+				<label for="tel">전화번호:</label> <input type="text" name="tel" />
+				</td>
+			</div>
+			<div>
+				<label for="birth">생년월일:</label> <input type="text" name="birth"
+					placeholder="숫자만입력해주세요 ex)19950111" />
+			</div>
+			<div>
+				<label for="gender">성별:</label> <input type="radio" name="gender"
+					value="남자" checked> <font size=2>남</font> <input
+					type="radio" name="gender" value="여자"> <font size=2>여</font>
+				</td>
+			</div>
+			<div>
+				<label for="email">이메일:</label> <input type="text" name="useremail" />
+				@ <input id="domain-txt" type="text" name="edomain" /> <select
+					id="domain-list">
 					<option value="naver.com">naver.com</option>
 					<option value="google.com">google.com</option>
 					<option value="daum.net">daum.net</option>
 					<option value="nate.com">nate.com</option>
 					<option value="kakao.com">kakao.com</option>
 					<option value="type">직접 입력</option>
-			</select></td> <br> <input type="submit" value="회원가입">
+				</select>
+			</div>
+			<div id="error-message" style="color: red;">${error}</div>
+			<div>
+				<input type="submit" value="회원가입">
+			</div>
+
+
+
 		</form>
 	</div>
 </body>

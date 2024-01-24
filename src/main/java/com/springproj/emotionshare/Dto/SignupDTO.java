@@ -1,11 +1,14 @@
 package com.springproj.emotionshare.Dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class SignupDTO {
 	
 	private String username;
@@ -18,18 +21,8 @@ public class SignupDTO {
 	private String useremail;
 	private String edomain;
 	
-	@Builder
-	public SignupDTO(String username,String password,String nick,String uname,String tel,
-			String birth,String gender,String useremail,String edomain){
-		this.username=username;
-		this.password=password;
-		this.nick=nick;
-		this.uname=uname;
-		this.tel=tel;
-		this.birth=birth;
-		this.gender=gender;
-		this.useremail=useremail;
-		this.edomain=edomain;
-	}
+	
+	private String confirmPassword;
+	
 	
 }

@@ -11,8 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-import com.springproj.emotionshare.Dto.CustomUserDetails;
+import com.springproj.emotionshare.securityConfig.CustomUserDetails;
 
 @Controller
 public class mainController {

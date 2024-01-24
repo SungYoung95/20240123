@@ -1,10 +1,10 @@
-package com.springproj.emotionshare.Dto;
+package com.springproj.emotionshare.service;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 
 //평문 패스워드와 암호화된 패스워드 비교 
-public class PasswordUtils {
+public class PasswordService {
 
 	public static boolean equals(String plaintext, String hashed) {
 		
