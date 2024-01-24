@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springproj.emotionshare.Dto.SignupDTO;
-import com.springproj.emotionshare.repository.UserEntity;
+import com.springproj.emotionshare.domain.UserEntity;
 import com.springproj.emotionshare.repository.UserRepository;
 import com.springproj.emotionshare.service.PasswordService;
 import com.springproj.emotionshare.service.SignupService;

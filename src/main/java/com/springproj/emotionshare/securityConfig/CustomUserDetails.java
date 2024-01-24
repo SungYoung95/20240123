@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.springproj.emotionshare.repository.UserEntity;
+import com.springproj.emotionshare.domain.UserEntity;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -40,8 +40,8 @@ public class CustomUserDetails implements UserDetails {
 		return userEntity.getNick();
 	}
 	
-	public String getUname() {
-		return userEntity.getUname();
+	public String getName() {
+		return userEntity.getName();
 	}
 	
 	public String getTel() {
@@ -56,10 +56,7 @@ public class CustomUserDetails implements UserDetails {
 	public String getUseremail() {
 		return userEntity.getUseremail();
 	}
-	public String getEdomain() {
-		return userEntity.getEdomain();
-	}
-	
+
 	@Override
 	public String getPassword() {
 		return userEntity.getPassword();

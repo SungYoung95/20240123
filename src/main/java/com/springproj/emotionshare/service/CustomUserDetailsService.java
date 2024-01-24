@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.springproj.emotionshare.repository.UserEntity;
+import com.springproj.emotionshare.domain.UserEntity;
 import com.springproj.emotionshare.repository.UserRepository;
 import com.springproj.emotionshare.securityConfig.CustomUserDetails;
 

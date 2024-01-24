@@ -3,9 +3,8 @@ package com.springproj.emotionshare.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.springproj.emotionshare.Dto.SignupDTO;
-import com.springproj.emotionshare.repository.UserEntity;
+import com.springproj.emotionshare.domain.UserEntity;
 import com.springproj.emotionshare.repository.UserRepository;
 
 @Service
@@ -32,12 +31,12 @@ public class SignupService {
 		data.setRole("ROLE_USER");
 
 		data.setNick(signupDTO.getNick());
-		data.setUname(signupDTO.getUname());
+		data.setName(signupDTO.getName());
 		data.setTel(signupDTO.getTel());
 		data.setBirth(signupDTO.getBirth());
 		data.setGender(signupDTO.getGender());
 		data.setUseremail(signupDTO.getUseremail());
-		data.setEdomain(signupDTO.getEdomain());
+		
 		
 		
 

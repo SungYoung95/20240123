@@ -28,7 +28,7 @@ public class mainController {
 		GrantedAuthority auth = iter.next();
 		String role = auth.getAuthority();
 		String Id = SecurityContextHolder.getContext().getAuthentication().getName();
-		model.addAttribute("userID", username);
+		model.addAttribute("username", username);
 		model.addAttribute("role", role);
 
 		return "mainpage";
@@ -38,20 +38,20 @@ public class mainController {
 	@GetMapping("/mypage")
 	public String myPage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
 	    String nick = userDetails.getNick();
-	    String uname = userDetails.getUname();
+	    String name = userDetails.getName();
 	    String tel = userDetails.getTel();
 	    String birth = userDetails.getBirth();
 	    String gender = userDetails.getGender();
 	    String useremail = userDetails.getUseremail();
-	    String edomain = userDetails.getEdomain();
+	   
 	  
 	    model.addAttribute("nick", nick);
-	    model.addAttribute("uname", uname);
+	    model.addAttribute("name", name);
 	    model.addAttribute("tel", tel);
 	    model.addAttribute("birth", birth);
 	    model.addAttribute("gender", gender);
 	    model.addAttribute("useremail", useremail);
-	    model.addAttribute("edomain", edomain);
+	  
 	    return "mypage";
 	}
 	
