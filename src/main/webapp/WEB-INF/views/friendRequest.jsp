@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="friendRequsetstyle.css">
 <title>친구 요청 목록</title>
     <style>
         .request-item {
@@ -14,6 +19,7 @@
     </style>
 </head>
 <body>
+	<div class="container" id="container">
 	<h1>${username}</h1>
 	<h1>친구 요청 목록</h1>
     <div id="friendRequestList"></div>
@@ -98,6 +104,6 @@
         // 페이지 로드 시 친구 요청 목록을 불러오도록 설정
         window.onload = loadFriendRequests;
     </script>
-
+</div>
 </body>
 </html>

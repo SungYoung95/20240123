@@ -1,8 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="blackliststyle.css">
 <title>블랙리스트 목록</title> 
     <style>
         #blacklist { /* 대소문자 일치 */
@@ -17,6 +23,7 @@
     </style>
 </head>
 <body>
+<div class="container" id="container">
     <h1>블랙리스트</h1>
     <div id="blacklist"></div>
 
@@ -80,6 +87,6 @@
 
         window.onload = loadBlacklist;
     </script>
-
+</div>
 </body>
 </html>

@@ -1,10 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="friendsstyle.css">
     <title>친구 추가 및 블랙리스트 추가</title>
 </head>
 <body>
+		<div class="container" id="container">
+
 	<h1>${username}</h1>
     <h1>사용자 검색</h1>
     <input type="text" id="searchInput" placeholder="사용자 이름 입력">
@@ -21,7 +30,7 @@
 	<b></b>
 	<button onclick="location.href='/blacklist'">블랙리스트 목록 보기</button>
 	<button onclick="location.href='/friendRequest'">친구 요청 목록 보기</button>
-    
+    </div>
     <script>
     function searchFriends() {
         var name = document.getElementById("searchInput").value;

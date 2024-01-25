@@ -1,8 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="friendListstyle.css">
     <title>친구 목록</title>
     <style>
         #friendList {
@@ -17,13 +23,15 @@
     </style>
 </head>
 <body>
+	
+	<div class="container" id="container">
     <h1>친구 목록</h1>
     <h1>${username}</h1>
     <input type="text" id="searchInput" placeholder="친구 이름 검색">
     <button onclick="searchFriends()">검색</button>
 
     <div id="friendList"></div>
-
+	</div>
     <script>
     function loadFriends() {
         var currentUserId = '${username}'; // 로그인한 사용자의 ID
@@ -62,6 +70,7 @@
             console.error('Error:', error);
         });
     }
+    
     /*
     function searchFriends() {
         var input = document.getElementById("searchInput");
@@ -133,6 +142,6 @@
         window.onload = loadFriends;
     
     </script>
-
+</div>
 </body>
 </html>

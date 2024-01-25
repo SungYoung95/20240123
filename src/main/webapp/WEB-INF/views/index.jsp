@@ -70,10 +70,10 @@
                         <span><i class="uil uil-home"></i></span><h3>Home</h3>
                     </a>
                     <a class="menu-item">
-                        <span><i class="uil uil-compass"></i></span><h3>Explore</h3>
+                        <span><i class="uil uil-compass"></i></span><h3>todayDiary</h3>
                     </a>
                     <a class="menu-item" id="notifications">
-                        <span><i class="uil uil-bell"><small class="notification-count">9+</small></i></span><h3>Notifications</h3>
+                        <span><i class="uil uil-bell"><small class="notification-count">9+</small></i></span><h3>sharedDairy</h3>
                         <!------------------- NOTIFICATION POPUP ---------------------->
                         <div class="notifications-popup">
                             <div>
@@ -136,17 +136,17 @@
                     <a class="menu-item" id="messages-notifications">
                         <span><i class="uil uil-envelope-alt" ><small class="notification-count">6</small></i></span><h3>Message</h3>
                     </a>
-                    <a class="menu-item">
-                        <span><i class="uil uil-bookmark"></i></span><h3>Bookmarks</h3>
+                    <a class="menu-item" href="/friends">
+                        <span><i class="uil uil-bookmark"></i></span><h3>friends</h3>
                     </a>
                     <a class="menu-item">
-                        <span><i class="uil uil-chart-line"></i></span><h3>Analytics</h3>
+                        <span><i class="uil uil-chart-line"></i></span><h3>lastDiary</h3>
                     </a>
                     <a class="menu-item">
-                        <span><i class="uil uil-palette"></i></span><h3>Theme</h3>
+                        <span><i class="uil uil-palette"></i></span><h3>미정</h3>
                     </a>
                     <a class="menu-item">
-                        <span><i class="uil uil-setting"></i></span><h3>Settings</h3>
+                        <span><i class="uil uil-setting"></i></span><h3>미정</h3>
                     </a>
                 </div>
                 <!--------------------- 사이드바 끝 ----------------------->
