@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" src="https://lib.yongin.go.kr/include/js/jquery-1.12.4.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -14,24 +15,61 @@
 
 	<div class="container" id="container">
 		<div class="form-container sign-up">
-			<form>
+			<form action="/signupProc" method="post" id="signupForm">
 				
-			
+				<div>
+				<label for="uid">아이디 :</label>
 				<input type="text"
-				placeholder="아이디">
-				<input type="text"
-				placeholder="Name">
-				<input type="text"
-				placeholder="Name">
-				<input type="text"
-				placeholder="Name">
-				<input type="text"
-				placeholder="Name">
-				<input type="email"
-				placeholder="Email">
+				placeholder="ID " name="username" id="uid">
+				<button id="duplicateID" type="button">중복</button>
+				<div id="usernameAvailabilityMessage"></div>
+				</div>
+				<div>
+				<label for="password">비밀번호 :</label>
 				<input type="password"
-				placeholder="Password">
-				<button>Sign Up</button>
+				placeholder="PW" name="password" id="password">
+				<div id="passwordLengthMessage"></div>
+				</div>
+				<div>
+				<label for="confirmPassword">비밀번호 확인 :</label>
+				<input type="password"
+				placeholder="PW를 다시 입력해주세요" name="confirmPassword" id="confirmPassword">
+				<div id="passwordCheck"></div>
+				</div>
+				<div>
+				<label for="name">이름 :</label>
+				<input type="text"
+				placeholder="이름" name="name" id="name">
+				</div>
+				<div>
+				<label for="nick">닉네임 :</label>
+				<input type="text"
+				placeholder="닉네임" name="nick" id="nick">
+				</div>
+				<div>
+				<label for="birth">생년월일 :</label>
+				<input type="text"
+				placeholder="생년월일 ex)19950111" name="birth" id="birth">
+				</div>
+				<div>
+				<label for="tel">전화번호 :</label>
+				<input type="text"
+				placeholder="전화번호 ex)01012341234" name="tel" id="tel">
+				</div>
+				<div>
+				<div id="genderController">
+				<label for="genderController">성별 :</label>
+				   <button id="maleButton" type="button" onclick="setGender('남자')">남자</button>
+    				<button id="femaleButton" type="button" onclick="setGender('여자')">여자</button>
+        		</div>
+        		 <input type="hidden" name="gender" id="gender" value="남자">
+        		</div>
+        		<div>
+        		<label for ="email">이메일 :</label>
+				<input type="text"
+				placeholder="EMAIL" name="email" id="email">
+				</div>
+				<button type="submit">Sign Up</button>
 			</form>
 		</div>
 		<div class="form-container sign-in">

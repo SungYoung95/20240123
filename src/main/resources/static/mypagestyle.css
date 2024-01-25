@@ -76,16 +76,17 @@ body{
 }
 
 
-.container input{
-	background-color: #eee;
-	border: none;
-	margin: 15px 0;
-	padding: 10px 15px;
-	font-size: 13px;
-	border-radius: 8px;
-	width: 250px;
-	outline: none;
+.container input {
+    background-color: #eee;
+    border: none;
+    margin: 15px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 250px;
+    outline: none;
 }
+
 
 .form-container{
 	position: absolute;
@@ -106,7 +107,7 @@ body{
 	transform: translateX(100%);
 }
 
-.sign-up{
+.up-date{
 	width:30px;
 	left: 0;
 	width: 50%;
@@ -114,7 +115,7 @@ body{
 	z-index: 1;
 }
 
-.container.active .sign-up{
+.container.active .up-date{
 	transform: translateX(100%);
 	opacity: 1;
 	z-index: 5;
@@ -238,5 +239,7 @@ body{
 		width: 55px;
         cursor: pointer;
     }
+   
+
    
    
