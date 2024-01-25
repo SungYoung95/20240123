@@ -8,6 +8,3 @@ create table member(
 );
 
 select * from member;
-
-insert into member values('admin','admin','관리자','Admin');
-insert into member values('hongkd','1234','홍길동','User');

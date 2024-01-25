@@ -34,7 +34,7 @@ public class mainController {
 		request.getSession().setAttribute("username", username);
 		model.addAttribute("role", role);
 
-		return "mainpage";
+		return "index";
 
 	}
 

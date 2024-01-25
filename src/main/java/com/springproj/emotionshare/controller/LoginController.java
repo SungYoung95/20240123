@@ -2,7 +2,6 @@ package com.springproj.emotionshare.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -36,10 +35,9 @@ public class LoginController {
 
 	}
 
-	@GetMapping("/signup")
-	public String singupP() {
-		return "signup";
-	}
+	
+	 @GetMapping("/signup") public String singupP() { return "signup"; }
+	 
 
 	@GetMapping("/checkDuplicateUsername")
 	@ResponseBody
@@ -57,24 +55,8 @@ public class LoginController {
 	}
 
 	@PostMapping("/signupProc")
-	public String signupProcess(SignupDTO signupDTO, Model model) {
-		if (signupDTO.getPassword().length() < 6) {
-			// 비밀번호가 6자 미만인 경우
-			model.addAttribute("error", "비밀번호를 6자 이상 입력해주세요 회원가입.");
-			return "signup";
-		}
-		if (!signupDTO.getPassword().equals(signupDTO.getConfirmPassword())) {
-			// 비밀번호가 일치하지 않는 경우
-			model.addAttribute("error", "비밀번호를 확인해주세요. 회원가입 ");
-			return "signup";
-		}
-		boolean isUser = userRepository.existsByUsername(signupDTO.getUsername());
-		if (isUser) {
-			model.addAttribute("error", "이미 사용 중인 아이디입니다. 아이디 변경 후 중복 확인을 진행해 주세요");
-			model.addAttribute("signupDTO", signupDTO);
-			return "signup";
-		}
-
+	public String signupProcess(SignupDTO signupDTO) {
+		
 		signupService.signupProcess(signupDTO);
 
 		return "redirect:/login";
@@ -130,7 +112,7 @@ public class LoginController {
 
 			SecurityContextHolder.getContext().setAuthentication(null);
 
-			return "withdraw-success";
+			return "login";
 		} else {
 			// Passwords do not match
 			model.addAttribute("error", "비밀번호X 다시입력.");

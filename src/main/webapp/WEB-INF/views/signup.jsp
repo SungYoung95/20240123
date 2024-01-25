@@ -8,23 +8,9 @@
 <script type="text/javascript"
 	src="https://lib.yongin.go.kr/include/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
-    // 이메일 도메인 선택
-    $(document).ready(function () {
-        const domainListEl = document.querySelector('#domain-list');
-        const domainInputEl = document.querySelector('#domain-txt');
-
-        // 도메인 선택 관련
-        domainListEl.addEventListener('change', function (event) {
-            if (domainListEl.options[domainListEl.selectedIndex].value !== 'type') {
-                domainInputEl.value = domainListEl.options[domainListEl.selectedIndex].value;
-                domainInputEl.disabled = false;
-            } else {
-                domainInputEl.value = '';
-                domainInputEl.disabled = true;
-            }
-        });
 
         // 아이디 중복 확인
+    $(document).ready(function () {    
         $('#duplicateID').on('click', function () {
             const username = $('#uid').val();
             $.ajax({
@@ -110,15 +96,7 @@
 			</div>
 			<div>
 				<label for="email">이메일:</label> <input type="text" name="useremail" />
-				@ <input id="domain-txt" type="text" name="edomain" /> <select
-					id="domain-list">
-					<option value="naver.com">naver.com</option>
-					<option value="google.com">google.com</option>
-					<option value="daum.net">daum.net</option>
-					<option value="nate.com">nate.com</option>
-					<option value="kakao.com">kakao.com</option>
-					<option value="type">직접 입력</option>
-				</select>
+			
 			</div>
 			<div id="error-message" style="color: red;">${error}</div>
 			<div>
