@@ -1,6 +1,7 @@
 package com.springproj.emotionshare.glassBottle.controller;
 
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.springproj.emotionshare.glassBottle.DTO.UserDto;
 import com.springproj.emotionshare.glassBottle.repository.FriendListRepository;
 import com.springproj.emotionshare.glassBottle.service.BlacklistService;
 import com.springproj.emotionshare.glassBottle.service.FriendService;
+import com.springproj.emotionshare.securityConfig.CustomUserDetails;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,7 +61,8 @@ public class FriendController {
 			 * ResponseEntity.ok(users); }
 			 */
 	   
-	 	 //친구 리스트 불러오기
+	 	 
+	 	//친구 리스트 불러오기
 	 	@GetMapping("/list/{userId}")
 	    public ResponseEntity<List<UserDto>> getFriendList(@PathVariable Long userId) {
 	        List<UserDto> friends = friendService.getAllFriends(userId);
@@ -68,6 +71,22 @@ public class FriendController {
 	        }
 	        return ResponseEntity.ok(friends);
 	    }
+	 	
+	 	@GetMapping("/requests/{userId}")
+	 	public List<FriendRequestDto> getFriendRequests(@PathVariable Long userId) {
+	 	    System.out.println("성공" + userId);
+
+	 	    List<FriendRequestDto> requests = friendService.getFriendRequests(userId);
+
+	 	    if (requests.isEmpty()) {
+	 	        // 비어있는 경우 빈 리스트를 반환할 수 있습니다.
+	 	        return Collections.emptyList();
+	 	    }
+
+	 	    System.out.println("성공 5" + requests);
+	 	    return requests;
+	 	}
+
 
 	 	// 친구 요청 보내기
 	    @PostMapping("/request")
@@ -76,13 +95,22 @@ public class FriendController {
 	        return ResponseEntity.ok("친구 요청 전송");
 	    }
 
-	    // 친구 요청 수락
 	    @PostMapping("/accept")
-	    public ResponseEntity<String> acceptFriendRequest(@RequestBody FriendRequestDto requestDto) {
+	    public ResponseEntity<String> acceptFriendRequest(@RequestBody FriendRequestDto requestDto, Authentication authentication) {
+	        // 현재 로그인한 사용자 정보를 얻지만, FriendService에는 전달하지 않음
+	        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+	        UserEntity currentUser = userDetails.getUserEntity();
+
+	        // FriendService 호출 시 requestDto만 전달
 	        friendService.acceptFriendRequest(requestDto);
-	        return ResponseEntity.ok("친구 요청 수락");
+	        System.out.println("성공 6" + requestDto);
+	        System.out.println("성공 7" + currentUser);
+	        return ResponseEntity.ok("Friend request accepted.");
 	    }
-	    
+
+
+
+
 	    //친구 삭제
 	    // 인증 토큰 확인 필요!!!!!!!!
 	    @DeleteMapping("/delete/{friendId}")

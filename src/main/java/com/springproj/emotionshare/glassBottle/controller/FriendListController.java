@@ -1,12 +1,19 @@
 package com.springproj.emotionshare.glassBottle.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.springproj.emotionshare.domain.UserEntity;
+import com.springproj.emotionshare.glassBottle.DTO.FriendRequestDto;
+import com.springproj.emotionshare.glassBottle.service.FriendService;
 
 
 
@@ -46,7 +53,7 @@ public class FriendListController {
         return "blacklist"; // blacklist.jsp로 이동
     }
     
-    @GetMapping("/friendsRequests")
+    @GetMapping("/friendRequest")
     public String showFriendRequestsPage(Model model, Authentication authentication) {
         if (authentication != null && authentication.getPrincipal() instanceof UserEntity) {
             UserEntity currentUser = (UserEntity) authentication.getPrincipal();
@@ -54,6 +61,7 @@ public class FriendListController {
 
             model.addAttribute("loggedInUserId", currentUserId);
         }
-        return "friendsRequests"; // friendRequests.jsp 이동
+        return "friendRequest"; // friendRequest.jsp 이동
     }
+
 }

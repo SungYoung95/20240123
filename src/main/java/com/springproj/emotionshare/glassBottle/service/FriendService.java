@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.springproj.emotionshare.domain.UserEntity;
@@ -50,22 +52,25 @@ public class FriendService {
 	     friendRequestRepository.save(friendRequest);
 	     }
 
-	    // 친구 요청 수락
-	    public void acceptFriendRequest(FriendRequestDto requestDto) {
-	        // 요청 찾기 및 상태 업데이트
-	        FriendRequest friendRequest = friendRequestRepository.findById(requestDto.getId())//특정 id가진 데이터베이스 찾기
-	            .orElseThrow(() -> new RuntimeException("친구 요청을 할 수 없음"));
-	        friendRequest.setStatus(FriendRequestStatus.ACCEPTED);
-	        friendRequestRepository.save(friendRequest);
-	        
-	     // 친구 관계 생성 및 저장
-	        FriendList friendList = new FriendList();
-	        UserEntity user1 = userRepository.findByName(String.valueOf(requestDto.getRequesterId())).orElse(null);
-	        UserEntity user2 = userRepository.findByName(String.valueOf(requestDto.getRequestedId())).orElse(null);
-	        friendList.setUser1(user1);
-	        friendList.setUser2(user2);
-	        friendListRepository.save(friendList);
-	    }
+	// 친구 요청 수락
+	 public void acceptFriendRequest(FriendRequestDto requestDto) {
+	     FriendRequest friendRequest = friendRequestRepository.findById(requestDto.getId())
+	         .orElseThrow(() -> new RuntimeException("Friend request not found."));
+	     friendRequest.setStatus(FriendRequestStatus.ACCEPTED);
+	     friendRequestRepository.save(friendRequest);
+	     
+	     FriendList friendList = new FriendList();
+	     UserEntity requester = userRepository.findById(requestDto.getRequesterId())
+	             .orElseThrow(() -> new RuntimeException("Requester user not found."));
+	     UserEntity requested = userRepository.findById(requestDto.getRequestedId())
+	             .orElseThrow(() -> new RuntimeException("Requested user not found."));
+
+	     friendList.setUser1(requester);
+	     friendList.setUser2(requested); // requestedId로 변경
+	     friendListRepository.save(friendList);
+	 }
+
+
 	    
 
 	 //친구 목록 리스트 
@@ -102,7 +107,29 @@ public class FriendService {
 	    friendListRepository.deleteByUser1IdAndUser2Id(userId, friendId);
 	    friendListRepository.deleteByUser1IdAndUser2Id(friendId, userId);
 	}
-    
+	
+	// 친구 요청 목록을 가져오는 메서드
+	public List<FriendRequestDto> getFriendRequests(Long userId) {
+	    // FriendRequestRepository에 정의된 메서드를 사용하여 친구 요청 데이터를 가져온 후,
+	    // 필요한 경우 DTO로 변환하여 반환합니다.
+	    List<FriendRequest> requestEntities = friendRequestRepository.findByRequestedId(userId);
+	    System.out.println(requestEntities);
+	    return requestEntities.stream()
+	            .map(this::convertToDto) // convertToDto는 엔티티를 DTO로 변환하는 메서드
+	            .collect(Collectors.toList());
+	}
+	
+	//엔티티를 dto로
+	private FriendRequestDto convertToDto(FriendRequest entity) {
+	    return FriendRequestDto.builder()
+	            .id(entity.getId())
+	            .requesterId(entity.getRequesterId())
+	            .requestedId(entity.getRequestedId())
+	            .status(entity.getStatus())
+	            .build();
+	}
+
+	 
 	 // DTO를 Entity로 변환하는 메소드
 	 private FriendRequest convertToEntity(FriendRequestDto requestDto) {
 		 FriendRequest friendRequest = new FriendRequest();

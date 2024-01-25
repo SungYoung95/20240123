@@ -20,7 +20,7 @@
 	<b></b>
 	<b></b>
 	<button onclick="location.href='/blacklist'">블랙리스트 목록 보기</button>
-	<button onclick="location.href='/friendsRequests'">친구 요청 목록 보기</button>
+	<button onclick="location.href='/friendRequest'">친구 요청 목록 보기</button>
     
     <script>
     function searchFriends() {

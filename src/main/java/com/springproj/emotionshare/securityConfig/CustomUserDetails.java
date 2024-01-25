@@ -56,6 +56,10 @@ public class CustomUserDetails implements UserDetails {
 	public String getUseremail() {
 		return userEntity.getUseremail();
 	}
+	
+	  public UserEntity getUserEntity() {
+	        return this.userEntity;
+	    }
 
 	@Override
 	public String getPassword() {
