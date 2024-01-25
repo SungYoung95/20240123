@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class UserDto {
@@ -18,7 +17,6 @@ public class UserDto {
     private String birth;
     private String gender;
     private String useremail;
-    private String edomain;
     private String role;
     
  // 전체 필드를 매개변수로 받는 생성자 추가

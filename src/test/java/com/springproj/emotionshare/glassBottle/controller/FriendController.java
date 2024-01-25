@@ -1,6 +1,5 @@
 package com.springproj.emotionshare.glassBottle.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +22,8 @@ import com.springproj.emotionshare.glassBottle.repository.FriendListRepository;
 import com.springproj.emotionshare.glassBottle.service.BlacklistService;
 import com.springproj.emotionshare.glassBottle.service.FriendService;
 
-import lombok.extern.slf4j.Slf4j;
+import jakarta.servlet.http.HttpServletRequest;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/friends")
 public class FriendController {
@@ -41,11 +39,9 @@ public class FriendController {
 	 	
 	 	//친구 검색 
 	 	 @GetMapping("/search")
-	     public ResponseEntity<List<UserDto>> searchFriends(@RequestParam("name") String name) {
-	 		 log.info("name = " + name);
+	     public ResponseEntity<List<UserDto>> searchFriends(@RequestParam String name) {
 	         // name을 기반으로 친구 검색, UserDto 구조에 맞게 반환
 	         List<UserDto> users = friendService.searchFriendsByName(name);
-	         log.info("users = " + users);
 	         return ResponseEntity.ok(users);
 	     }
 			/*

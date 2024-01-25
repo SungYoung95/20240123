@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.springproj.emotionshare.domain.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity ,Long>{
-	List<UserEntity> findByNameContaining(String username); // UserEntity 반환 타입으로 변경
-    Optional<UserEntity> findByName(String username); // UserEntity 반환 타입으로 변경
+	List<UserEntity> findByNameContaining(String name); // UserEntity 반환 타입으로 변경
+    Optional<UserEntity> findByName(String name); // UserEntity 반환 타입으로 변경
 
 	
 	//로그인관련 

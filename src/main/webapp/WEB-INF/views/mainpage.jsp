@@ -429,7 +429,7 @@ $(document).ready(function(){
 <body>
 <!-- div#wrap>(header>h1+nav>a[#]*1) -->
 	<header>
-		<h1><a href="#" id="id">${userID}님</a></h1>
+		<h1><a href="#" id="id">${username}님</a></h1>
 		<nav>
 			<a href="/mypage">MYPAGE</a>
 		</nav>
@@ -443,7 +443,7 @@ $(document).ready(function(){
 				<li><a href="#" id="comeDiary">수신 받은 일기</a></li>
 				<li><a href="feelMonth.do">한달 나의 기분</a></li>
 				<li><a href="#" id="chat">채팅창</a></li>
-				<li><a href="myFriends.do">친구목록</a></li>
+				<li><a href="/friends">친구목록</a></li> 
 				<li><a href="feelNow.do">나의 기분 상태</a></li>
 			</ul>
 		</article>

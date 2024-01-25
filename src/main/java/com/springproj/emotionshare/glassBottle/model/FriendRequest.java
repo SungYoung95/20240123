@@ -24,6 +24,4 @@ public class FriendRequest {
 	    private Long requestedId; // 요청받은 사람의 ID
 	    private FriendRequestStatus status;
 		
-	   	
-
 }

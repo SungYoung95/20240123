@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.springproj.emotionshare.securityConfig.CustomUserDetails;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class mainController {
-
+	
 	@GetMapping("/mainpage")
-	public String mainP(Model model) {
+	public String mainP(Model model,HttpServletRequest request) {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -29,6 +31,7 @@ public class mainController {
 		String role = auth.getAuthority();
 		String Id = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.addAttribute("username", username);
+		request.getSession().setAttribute("username", username);
 		model.addAttribute("role", role);
 
 		return "mainpage";

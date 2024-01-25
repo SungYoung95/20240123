@@ -92,7 +92,7 @@
 					id="nick" />
 			</div>
 			<div>
-				<label for="uname">이름:</label> <input type="text" name="uname" />
+				<label for="name">이름:</label> <input type="text" name="name" />
 			</div>
 			<div>
 				<label for="tel">전화번호:</label> <input type="text" name="tel" />
