@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,19 +21,21 @@
     </style>
 </head>
 <body>
-	
-	<div class="container" id="container">
     <h1>친구 목록</h1>
     <h1>${username}</h1>
     <input type="text" id="searchInput" placeholder="친구 이름 검색">
     <button onclick="searchFriends()">검색</button>
-
+	<!-- 기존의 코드에 이 부분을 추가 -->
+	<div id="searchResultsContainer"></div>
+	<div></div>
     <div id="friendList"></div>
-	</div>
+
     <script>
+    
+    //유저 본인의 친구 목록 불러오기
     function loadFriends() {
         var currentUserId = '${username}'; // 로그인한 사용자의 ID
-        
+        console.log(currentUserId);
      	// 로그인한 사용자의 ID 값이 제대로 설정되었는지 확인
         if (!currentUserId) {
             console.error('The logged-in user ID is not set.');
@@ -44,7 +44,8 @@
 
         fetch('/api/friends/list/' + currentUserId) // currentUserId는 현재 로그인한 사용자의 ID
         .then(function(response) {
-            return response.json();
+            console.log("loadFriends의 첫번째 디버깅" + response);
+        	return response.json();
         })
         .then(function(friends) {
             var list = document.getElementById("friendList");
@@ -59,89 +60,91 @@
                 var deleteBtn = document.createElement('button');
                 deleteBtn.innerText = '친구 삭제';
                 deleteBtn.onclick = function() {
-                    deleteFriend(friend.id); // 친구 삭제 함수 호출
+                    deleteFriend(currentUserId, friend.id); // 현재 사용자 ID와 친구 ID를 함께 전달
                 };
 
                 friendDiv.appendChild(deleteBtn);
-                list.appendChild(friendDiv);
-            })
+                list.appendChild(friendDiv);            
+                })
+        	})
+        	.catch(function(error) {
+            	console.error('Error:', error);
+        	});
+    }
+    
+    // 수정 버전
+    //우저 본인의 친구 목록에서 유저의 친구 찾기 api
+    function searchFriends() {
+    var input = document.getElementById("searchInput");
+    var name = input.value;
+    var currentUserId = '${username}';
+
+    // 검색 결과 컨테이너와 기존 친구 목록 컨테이너를 찾기
+    var searchResultsContainer = document.getElementById("searchResultsContainer");
+    var friendListContainer = document.getElementById("friendList");
+	
+ 	// 검색 결과 컨테이너 초기화 및 기존 친구 목록 숨기기
+    searchResultsContainer.innerHTML = '';
+    friendListContainer.style.display = 'none'; // 기존 친구 목록을 숨기기
+
+    fetch('/api/friends/searchInList/' + currentUserId + '?name=' + encodeURIComponent(name))
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('네트워크 에러 : ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(function(searchResults) {
+            if (searchResults.length === 0) {
+            	searchResultsContainer.innerHTML = '<p>검색 결과 없음</p>';
+                friendListContainer.style.display = 'block'; // 검색 결과가 없을 때 기존 친구 목록을 다시 보여주기
+            } else {
+            	searchResults.forEach(function(friend) {
+                    var friendDiv = document.createElement('div');
+                    friendDiv.innerHTML = '<p>이름:   ' + friend.name + '</p>';
+                    searchResultsContainer.appendChild(friendDiv);
+                });
+            }
         })
         .catch(function(error) {
-            console.error('Error:', error);
+        	 searchResultsContainer.innerHTML = '<p>에러</p>';
+             friendListContainer.style.display = 'block'; // 에러 발생 시 기존 친구 목록을 다시 보여주기
+             console.error('Error:', error);
         });
-    }
-    
-    /*
-    function searchFriends() {
-        var input = document.getElementById("searchInput");
-        var name = input.value;
-        var resultsContainer = document.getElementById("searchResults");
-        resultsContainer.innerHTML = ''; // Clear previous results
+	}
 
-        fetch('/api/friends/search?name=' + encodeURIComponent(name))
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(function(searchResults) {
-                if (searchResults.length === 0) {
-                    resultsContainer.innerHTML = '<p>No friends found.</p>';
-                } else {
-                    searchResults.forEach(function(user) {
-                        var userDiv = document.createElement('div');
-                        userDiv.innerHTML = 
-                            '<p>Name: ' + user.name + '</p>' +
-                            '<p>Username: ' + user.username + '</p>';
-                        var friendRequestBtn = document.createElement('button');
-                        friendRequestBtn.innerText = 'Send Friend Request';
-                        friendRequestBtn.onclick = function() {
-                            sendFriendRequest('${loggedInUserId}', user.id);
-                        };
-                        userDiv.appendChild(friendRequestBtn);
-                        resultsContainer.appendChild(userDiv);
-                    });
-                }
-            })
-            .catch(function(error) {
-                resultsContainer.innerHTML = '<p>Error searching for friends.</p>';
-                console.error('Search failed:', error);
-            });
-    }
-
-*/
-    
-       function deleteFriend(friendId) {
-    		fetch('/api/friends/delete/' + friendId, {
-       	 method: 'DELETE', 
-        headers: {
-            'Content-Type': 'application/json',
-            // 필요한 경우 인증 토큰(security 사용하니까 필요함)
-            'Authorization': 'Bearer ' + token
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            // 서버에서 요청이 성공적으로 처리됐을 때
-            var friendDiv = document.getElementById('friend-' + friendId);
-            if (friendDiv) {
-                friendDiv.remove(); // 친구 항목 삭제
-            }
-            alert("친구가 목록에서 삭제되었습니다.");
-        } else {
-            throw new Error('Something went wrong on api server!');
-        }
-    })
-    .catch(error => {
-        console.error(error);
-    });
-}
+    	
+		// 수정 버전 
+		//친구 삭제 api
+       // 유저 본인의 친구 목록에서 친구 삭제 매서드
+    	function deleteFriend(currentUserId, friendId) {
+        	fetch('/api/friends/delete/' + currentUserId + '/' + friendId, {
+            	method: 'DELETE',
+            	headers: {
+                	'Content-Type': 'application/json'
+            		}
+        		})
+        		.then(response => {
+        	        if (response.ok) {
+        	            // 서버에서 요청이 성공적으로 처리됐을 때
+        	            var friendDiv = document.getElementById('friend-' + friendId);
+        	            if (friendDiv) {
+        	                friendDiv.remove(); // 친구 항목 삭제
+        	            }
+        	            alert("친구가 목록에서 삭제되었습니다.");
+        	        } else {
+        	            throw new Error('Something went wrong on api server!');
+        	        }
+        	    })
+        	    .catch(error => {
+        	        console.error(error);
+        	    });
+        	}
 
         // 페이지 로드 시 친구 목록을 불러오도록 설정
         window.onload = loadFriends;
     
     </script>
-</div>
+
 </body>
 </html>

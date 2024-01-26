@@ -1,6 +1,5 @@
 package com.springproj.emotionshare.glassBottle.DTO;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

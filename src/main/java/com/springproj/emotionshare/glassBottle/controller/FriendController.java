@@ -41,11 +41,13 @@ public class FriendController {
 	 	private FriendListRepository friendListRepository;
 	 	
 	 	
-	 	//친구 검색 
+	 	//전체 유저 중  검색 
 	 	 @GetMapping("/search")
 	     public ResponseEntity<List<UserDto>> searchFriends(@RequestParam("name") String name) {
+	 		 
 	 		 log.info("name = " + name);
-	         // name을 기반으로 친구 검색, UserDto 구조에 맞게 반환
+	         
+	 		 // name을 기반으로 친구 검색, UserDto 구조에 맞게 반환
 	         List<UserDto> users = friendService.searchFriendsByName(name);
 	         log.info("users = " + users);
 	         return ResponseEntity.ok(users);
@@ -66,12 +68,17 @@ public class FriendController {
 	 	@GetMapping("/list/{userId}")
 	    public ResponseEntity<List<UserDto>> getFriendList(@PathVariable Long userId) {
 	        List<UserDto> friends = friendService.getAllFriends(userId);
+	        System.out.println("getFriedList디버깅 userId 체크" + userId);
 	        if (friends.isEmpty()) {
+	        	System.out.println("getFriedList디버깅");
 	            return ResponseEntity.notFound().build();
 	        }
+
+        	System.out.println("getFriedList디버깅" + friends);
 	        return ResponseEntity.ok(friends);
 	    }
 	 	
+	 	//친구 요청 api
 	 	@GetMapping("/requests/{userId}")
 	 	public List<FriendRequestDto> getFriendRequests(@PathVariable Long userId) {
 	 	    System.out.println("성공" + userId);
@@ -86,15 +93,26 @@ public class FriendController {
 	 	    System.out.println("성공 5" + requests);
 	 	    return requests;
 	 	}
-
-
+	 	
+	 	//수정 버전
+	 	//친구리스트 내에서 본인의 친구 검색
+	 	@GetMapping("/searchInList/{userId}")
+	 	public ResponseEntity<List<UserDto>> searchFriendsInList(@PathVariable Long userId, @RequestParam("name") String name) {
+	 	    List<UserDto> friends = friendService.searchFriendsInList(userId, name);
+	 	    if (friends.isEmpty()) {
+	 	        return ResponseEntity.notFound().build();
+	 	    }
+	 	    return ResponseEntity.ok(friends);
+	 	}
+	 	
 	 	// 친구 요청 보내기
 	    @PostMapping("/request")
 	    public ResponseEntity<String> sendFriendRequest(@RequestBody FriendRequestDto requestDto) {
 	        friendService.sendFriendRequest(requestDto);
 	        return ResponseEntity.ok("친구 요청 전송");
 	    }
-
+	    
+	    //친구 요청 수락 api
 	    @PostMapping("/accept")
 	    public ResponseEntity<String> acceptFriendRequest(@RequestBody FriendRequestDto requestDto, Authentication authentication) {
 	        // 현재 로그인한 사용자 정보를 얻지만, FriendService에는 전달하지 않음
@@ -107,30 +125,36 @@ public class FriendController {
 	        System.out.println("성공 7" + currentUser);
 	        return ResponseEntity.ok("Friend request accepted.");
 	    }
+	    
+	    //수정 버전
+	    //친구 요청 거절 api
+	    @DeleteMapping("/reject/{currentUserId}/{requestId}")
+	    public ResponseEntity<?> rejectFriendRequest(@PathVariable Long currentUserId, @PathVariable Long requestId) {
+	        friendService.rejectFriendRequest(currentUserId, requestId);
+	        return ResponseEntity.ok().build();
+	    }
 
-
-
-
-	    //친구 삭제
-	    // 인증 토큰 확인 필요!!!!!!!!
-	    @DeleteMapping("/delete/{friendId}")
-	    public ResponseEntity<?> deleteFriend(@PathVariable Long friendId, Authentication authentication) {
-	        Long currentUserId = ((UserEntity) authentication.getPrincipal()).getId(); // 현재 로그인한 사용자의 ID를 인증 정보로부터 가져오기.
+	    //수정 버전
+	    //유저 본인의 친구리스트에서 친구 삭제
+	    @DeleteMapping("/delete/{currentUserId}/{friendId}")
+	    public ResponseEntity<?> deleteFriend(@PathVariable Long currentUserId, @PathVariable Long friendId) {
 	        friendService.deleteFriend(currentUserId, friendId); // 서비스에서 친구 삭제 처리
 	        return ResponseEntity.ok().build(); // 성공 응답 반환
 	    }
-	    
-	    // 블랙 리스트 추가
+
+	    // 수정 버전
+	    //블랙리스트 추가
 	    @PostMapping("/blacklistUser")
 	    public ResponseEntity<String> blacklistRequest(@RequestBody BlacklistDto blacklistDto) {
-	        blacklistService.addUserToBlacklist(blacklistDto);
+	        blacklistService.addUserToBlacklist(blacklistDto.getOwnerId(), blacklistDto.getUserId());
 	        return ResponseEntity.ok("사용자가 블랙리스트에 추가되었습니다.");
 	    }
+
 	    
-	    //블랙리스트 조회
-	    @GetMapping("/blacklist")
-	    public ResponseEntity<List<UserDto>> getBlacklist(Authentication authentication) {
-	        Long currentUserId = ((UserEntity) authentication.getPrincipal()).getId();
+	    // 수정된 버전
+	    //블랙리스트 조회 
+	    @GetMapping("/blacklist/{currentUserId}")
+	    public ResponseEntity<List<UserDto>> getBlacklist(@PathVariable Long currentUserId) {
 	        List<UserDto> blacklist = blacklistService.getBlacklist(currentUserId);
 	        if (blacklist.isEmpty()) {
 	            return ResponseEntity.notFound().build();
@@ -138,13 +162,23 @@ public class FriendController {
 	        return ResponseEntity.ok(blacklist);
 	    }
 
-		
-	    //블랙리스트 삭제
-	    @DeleteMapping("/removeFromBlacklist/{userId}")
-	    public ResponseEntity<?> removeFromBlacklist(@PathVariable Long userId) {
-	        blacklistService.removeUserFromBlacklist(userId);
+	    // 수정버전
+		//블랙리스트 삭제
+	    @DeleteMapping("/removeFromBlacklist/{ownerId}/{userId}")
+	    public ResponseEntity<?> removeFromBlacklist(@PathVariable Long ownerId, @PathVariable Long userId) {
+	        blacklistService.removeUserFromBlacklist(ownerId, userId);
 	        return ResponseEntity.ok().build();
 	    }
-
+	    
+	    //수정버전
+	    //블랙리스트 내에서 검색 api
+	    @GetMapping("/blacklist/search/{currentUserId}")
+	    public ResponseEntity<List<UserDto>> searchBlacklist(@PathVariable Long currentUserId, @RequestParam("name") String name) {
+	        List<UserDto> blacklist = blacklistService.searchBlacklist(currentUserId, name);
+	        if (blacklist.isEmpty()) {
+	            return ResponseEntity.notFound().build();
+	        }
+	        return ResponseEntity.ok(blacklist);
+	    }
 	    
 }

@@ -1,19 +1,12 @@
 package com.springproj.emotionshare.glassBottle.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.springproj.emotionshare.domain.UserEntity;
-import com.springproj.emotionshare.glassBottle.DTO.FriendRequestDto;
-import com.springproj.emotionshare.glassBottle.service.FriendService;
 
 
 
@@ -33,8 +26,11 @@ public class FriendListController {
     
     @GetMapping("/friendsList")
     public String showFriendsListPage(Model model, Authentication authentication) {
+    	System.out.println("showFriendsListPage 첫번째 디버깅");
         if (authentication != null && authentication.getPrincipal() instanceof UserEntity) {
+        	System.out.println("showFriendsListPage 두번째 디버깅");
             UserEntity currentUser = (UserEntity) authentication.getPrincipal();
+            System.out.println("세번째"+currentUser);
             String currentUserId = currentUser.getId().toString(); // Long 타입의 ID String으로 변환
             
             model.addAttribute("loggedInUserId", currentUserId);

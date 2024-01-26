@@ -12,8 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "Blacklist")
 @Data
+@Table(name = "Blacklist")
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

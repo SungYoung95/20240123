@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +10,6 @@
     <title>친구 추가 및 블랙리스트 추가</title>
 </head>
 <body>
-		<div class="container" id="container">
-
 	<h1>${username}</h1>
     <h1>사용자 검색</h1>
     <input type="text" id="searchInput" placeholder="사용자 이름 입력">
@@ -30,8 +26,10 @@
 	<b></b>
 	<button onclick="location.href='/blacklist'">블랙리스트 목록 보기</button>
 	<button onclick="location.href='/friendRequest'">친구 요청 목록 보기</button>
-    </div>
+    
     <script>
+    
+    //전체 유저 검색
     function searchFriends() {
         var name = document.getElementById("searchInput").value;
         fetch('/api/friends/search?name=' + encodeURIComponent(name))
@@ -49,6 +47,7 @@
 
                 users.forEach(function(user) {
                     var userDiv = document.createElement('div');
+                    userDiv.id = 'user-' + user.id; // 사용자마다 고유한 ID 할당
                     userDiv.innerHTML = user.name + " - " + user.id;
 					
                     //친구 요청 버튼
@@ -62,7 +61,7 @@
                     var blacklistBtn = document.createElement('button');
                     blacklistBtn.innerText = '블랙리스트 추가';
                     blacklistBtn.onclick = function() {
-                        addToBlacklist(user.id);
+                        addToBlacklist(currentUserId, user.id);
                     };
 
                     userDiv.appendChild(friendRequestBtn);
@@ -74,7 +73,8 @@
                 console.error('Error:', error);
             });
     }
-
+    
+	//친구 요청
     function sendFriendRequest(requesterId, requestedId) {
         fetch('/api/friends/request', {
             method: 'POST',
@@ -88,23 +88,41 @@
             })
         })
         .then(response => response.text())
-        .then(text => alert(text))
         .catch(error => console.error('Error:', error));
     }
-
-
-    function addToBlacklist(userId) {
+	
+	//수정 버전
+	//블랙리스트 추가
+    function addToBlacklist(currentUserId, userId) {
         fetch('/api/friends/blacklistUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userId: userId })
+            body: JSON.stringify({ 
+                ownerId: currentUserId, 
+                userId: userId 
+            })
         })
-        .then(response => response.text())
+         .then(response => {
+        	if (response.ok) {
+            	removeUserFromSearchResults(userId);
+            	alert('블랙리스트에 추가되었습니다.');
+        	} else {
+            	alert('블랙리스트 추가에 실패했습니다.');
+        	}
+    	})
         .then(text => alert(text))
         .catch(error => console.error('Error:', error));
+        
+        function removeUserFromSearchResults(userId) {
+            var userDiv = document.getElementById('user-' + userId);
+            if (userDiv) {
+                userDiv.remove();
+            }
+        }
     }
+
     </script>
 
 </body>
