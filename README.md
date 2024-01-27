@@ -24,7 +24,7 @@ C:/workspaces/git/20240123/src/main/resources/static/upload
 
 /workspaces/git/20240123/src/main/resources/static/upload
 
-// 긴급수정 내용 
+// 긴급수정필요 내용
 >> 일기 작성이 안됨!!!!!
 
 // 수정
@@ -41,7 +41,9 @@ else {primeDID = diaryRepository.getPrimeDID() + 1;}
 
 >> 일기 공유가 안됨!!!!!
 
-// 수정
+DiaryService 258줄 내용
 
-DiaryService 258줄 내용 바로 밑에
-if(findDsCODE == null) findDsCODE = 0L; 추가
+Long findDsCODE = diaryShareRepository.getDsCODE();
+if(findDsCODE == null) findDsCODE = 0L;
+Long findDsGROUPID = diaryShareRepository.getDsGROUPID();
+if(findDsGROUPID == null) findDsGROUPID = 0L;
