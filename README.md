@@ -38,3 +38,10 @@ Long primeDID = diaryRepository.getPrimeDID() + 1;
 Long primeDID = 0L;
 if(diaryRepository.getPrimeDID() == null) { primeDID = 0L;}
 else {primeDID = diaryRepository.getPrimeDID() + 1;}
+
+>> 일기 공유가 안됨!!!!!
+
+// 수정
+
+DiaryService 258줄 내용 바로 밑에
+if(findDsCODE == null) findDsCODE = 0L; 추가
