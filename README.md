@@ -23,3 +23,18 @@ application.properties 멀티파트 경로 설정 2개 해야함
 C:/workspaces/git/20240123/src/main/resources/static/upload
 
 /workspaces/git/20240123/src/main/resources/static/upload
+
+// 긴급수정 내용 
+>> 일기 작성이 안됨!!!!!
+
+// 수정
+
+DiaryService 55줄 내용
+
+Long primeDID = diaryRepository.getPrimeDID() + 1;
+
+-->
+ 
+Long primeDID = 0L;
+if(diaryRepository.getPrimeDID() == null) { primeDID = 0L;}
+else {primeDID = diaryRepository.getPrimeDID() + 1;}
