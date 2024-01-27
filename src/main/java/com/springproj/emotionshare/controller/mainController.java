@@ -31,6 +31,7 @@ public class mainController {
 		String role = auth.getAuthority();
 		String Id = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.addAttribute("username", username);
+		request.getSession().removeAttribute("username");
 		request.getSession().setAttribute("username", username);
 		model.addAttribute("role", role);
 

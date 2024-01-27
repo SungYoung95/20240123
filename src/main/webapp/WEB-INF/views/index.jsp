@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
  <!DOCTYPE html>
 <html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+</script>
 <script>
     function logout() {
         // Perform any additional logout actions if needed
@@ -10,6 +12,25 @@
         // Redirect to the "/logout" URL
         window.location.href = "/logout";
     }
+</script>
+<script>
+$(document).ready(function(){
+	console.log("left!");
+	$.ajax({
+		url:"/diary/noReadCheck",
+		type:"GET",
+		success:function(data){
+			console.log(data);
+			if(data != '0'){ 
+				var text = "<small class='notification-count' id='noReadCount'>" + data + "</small>";
+				$(".uil-bell").append(text);
+			}
+		},
+		error:function(){
+			console.log("noReadCheck error");
+		}
+	});
+});
 </script>
 <head>
     <meta charset="UTF-8">
@@ -69,11 +90,11 @@
                     <a class="menu-item active">
                         <span><i class="uil uil-home"></i></span><h3>Home</h3>
                     </a>
-                    <a class="menu-item">
+                    <a class="menu-item" href="/diary/todayDiary">
                         <span><i class="uil uil-compass"></i></span><h3>todayDiary</h3>
                     </a>
-                    <a class="menu-item" id="notifications">
-                        <span><i class="uil uil-bell"><small class="notification-count">9+</small></i></span><h3>sharedDairy</h3>
+                    <a class="menu-item" id="notifications" href="/diary/sharedDiary">
+                        <span><i class="uil uil-bell"></i></span><h3>sharedDiary</h3>
                         <!------------------- NOTIFICATION POPUP ---------------------->
                         <div class="notifications-popup">
                             <div>
@@ -139,7 +160,7 @@
                     <a class="menu-item" href="/friends">
                         <span><i class="uil uil-bookmark"></i></span><h3>friends</h3>
                     </a>
-                    <a class="menu-item">
+                    <a class="menu-item" href="/diary/lastDiary">
                         <span><i class="uil uil-chart-line"></i></span><h3>lastDiary</h3>
                     </a>
                     <a class="menu-item">
