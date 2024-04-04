@@ -1,0 +1,196 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/SungYoung95/20240123/blob/main/4_sorting/hung\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## 1. 위에서 아래로"
+      ],
+      "metadata": {
+        "id": "Gni2sU8YTsC3"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "n = int(input())\n",
+        "array = []\n",
+        "for i in range(n) :\n",
+        "  array.append(int(input()))\n",
+        "array.sort(reverse = False)\n",
+        "print(array)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "JmejVRQWTrgP",
+        "outputId": "8ff37031-0d32-45cc-a7e8-a4546406c536"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "3\n",
+            "12\n",
+            "15\n",
+            "27\n",
+            "[12, 15, 27]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "##2. 성적이 낮은 순서로 학생 출력하기"
+      ],
+      "metadata": {
+        "id": "s2ax25pUVHa8"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "v4qIS-vLThWB",
+        "outputId": "99e52969-cc40-4cd3-c888-07b3f74f2615"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "2\n",
+            "홍길동 24\n",
+            "이순신 34\n",
+            "홍길동 이순신 "
+          ]
+        }
+      ],
+      "source": [
+        "n = int(input())\n",
+        "\n",
+        "array=[]\n",
+        "for i in range(n):\n",
+        "  input_data = input().split()\n",
+        "  array.append((input_data[0], int(input_data[1])))\n",
+        "array = sorted(array, key = lambda student: student[1])\n",
+        "for student in array:\n",
+        "  print(student[0], end = ' ')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## 3. 두 배열의 원소 교체"
+      ],
+      "metadata": {
+        "id": "uYKpsT4qeZWp"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "n, k= map(int, input().split())\n",
+        "a = list(map(int, input().split()))\n",
+        "b = list(map(int, input().split()))\n",
+        "\n",
+        "a.sort ( )\n",
+        "b.sort(reverse=True)\n",
+        "for i in range(k):\n",
+        " # A의 원소가B의 원소보다 작은 경우\n",
+        "  if a[i] <b[i]:\n",
+        "    a[i], b[i]= b[i], a[i]\n",
+        "  else :\n",
+        "    break\n",
+        "print(sum(a))"
+      ],
+      "metadata": {
+        "id": "Vneelw5YiVP5",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "be037882-af6b-4e3d-d335-bb3cb63faba3"
+      },
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "5 3\n",
+            "1 2 5 4 3\n",
+            "5 5 6 6 5\n",
+            "26\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## 4. 프로그래머스 sorting"
+      ],
+      "metadata": {
+        "id": "U4fclAwynGLX"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def solution(numbers):\n",
+        "\n",
+        "    str_numbers = list(map(str, numbers))\n",
+        "    ## 1000자리까지이니\n",
+        "    str_numbers.sort(key=lambda x: x*3, reverse=True)\n",
+        "\n",
+        "    answer = ''.join(str_numbers)\n",
+        "    return str(int(answer))"
+      ],
+      "metadata": {
+        "id": "W_xuU6R-fOML"
+      },
+      "execution_count": 13,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "bQpccm-in4SW"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
